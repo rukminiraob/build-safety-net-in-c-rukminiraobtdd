@@ -23,22 +23,29 @@ char getSoundexCode(char c) {
 }
 
 void generateSoundex(const char *name, char *soundex) {
-    int len = strlen(name);
+    // Handle the case where the name is empty
+    if (name[0] == '\0') {
+        soundex[0] = '\0';
+        return;
+    }
+
+    // Initialize the soundex code
     soundex[0] = toupper(name[0]);
+    soundex[1] = soundex[2] = soundex[3] = '0';
+    soundex[4] = '\0'; // Null-terminate the string
+
+    char lastCode = '0'; // Keep track of the last non-zero code
     int sIndex = 1;
 
-    for (int i = 1; i < len && sIndex < 4; i++) {
+    // Process each character in the name, starting from the second character
+    for (int i = 1; name[i] != '\0' && sIndex < 4; i++) {
         char code = getSoundexCode(name[i]);
-        if (code != '0' && code != soundex[sIndex - 1]) {
+        if (code != '0' && code != lastCode) {
             soundex[sIndex++] = code;
+            lastCode = code;
         }
     }
-
-    while (sIndex < 4) {
-        soundex[sIndex++] = '0';
-    }
-
-    soundex[4] = '\0';
 }
+
 
 #endif // SOUNDEX_H
