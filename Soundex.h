@@ -13,8 +13,6 @@ char getSoundexCode(char c) {
     };
 
     c = toupper(c);
-    
-    }
 
     // Check if the character is a letter
     if (c >= 'A' && c <= 'Z') {
@@ -22,6 +20,7 @@ char getSoundexCode(char c) {
     } else {
         return '0'; // Non-alphabetical characters
     }
+}
 
 void generateSoundex(const char *name, char *soundex) {
     int len = strlen(name);
