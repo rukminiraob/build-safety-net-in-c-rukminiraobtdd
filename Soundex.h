@@ -1,51 +1,48 @@
 #ifndef SOUNDEX_H
 #define SOUNDEX_H
 
-#include "Soundex.h"
 #include <ctype.h>
 #include <string.h>
 
-char getSoundexCode(char c) {
-    // Array to store Soundex codes for 'A' to 'Z'
-    static const char soundexTable[26] = {
-        // A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
-        '0', '1', '2', '3', '0', '1', '2', '0', '0', '2', '2', '4', '5', '5', '0', '1', '2', '6', '2', '3', '0', '1', '0', '2', '0', '2'
-    };
+// ............................ABCDEFGHIJKLMNOPQRSTUVWXYZ
+static const char* mappings = "01230120022455012623010202";
 
+char getMappedChar(char c) {
     c = toupper(c);
 
-    // Check if the character is a letter
-    if (c >= 'A' && c <= 'Z') {
-        return soundexTable[c - 'A'];
-    } else {
-        return '0'; // Non-alphabetical characters
+    if (c < 'A' || c > 'Z') {
+        return '0'; // Handle non-alphabetic characters
+    }
+
+    return mappings[c - 'A'];
+}
+
+int isValidToAdd(char mappedChar, char lastChar, int si) {
+    return (si < 4) && (mappedChar != '0') && (mappedChar != lastChar);
+}
+
+void addChar(char mappedChar, char* soundex, int* sip) {
+    if (isValidToAdd(mappedChar, soundex[*sip - 1], *sip)) {
+        soundex[*sip] = mappedChar;
+        (*sip)++;
     }
 }
 
-void generateSoundex(const char *name, char *soundex) {
-    // Handle the case where the name is empty
-    if (name[0] == '\0') {
-        soundex[0] = '\0';
-        return;
-    }
-
-    // Initialize the soundex code
+void generateSoundex(const char* name, char* soundex) {
+    int si = 1;
     soundex[0] = toupper(name[0]);
-    soundex[1] = soundex[2] = soundex[3] = '0';
-    soundex[4] = '\0'; // Null-terminate the string
+    int l = strlen(name);
 
-    char lastCode = '0'; // Keep track of the last non-zero code
-    int sIndex = 1;
-
-    // Process each character in the name, starting from the second character
-    for (int i = 1; name[i] != '\0' && sIndex < 4; i++) {
-        char code = getSoundexCode(name[i]);
-        if (code != '0' && code != lastCode) {
-            soundex[sIndex++] = code;
-            lastCode = code;
-        }
+    for (int i = 1; i < l; i++) {
+        char mappedChar = getMappedChar(name[i]);
+        addChar(mappedChar, soundex, &si);
     }
-}
 
+    while (si < 4) {
+        soundex[si++] = '0';
+    }
+
+    soundex[4] = '\0';
+}
 
 #endif // SOUNDEX_H
