@@ -1,5 +1,5 @@
-#include "Soundex.h"
-#include <gtest/gtest.h>
+//#include "Soundex.h"
+//#include <gtest/gtest.h>
 
 /* TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits) {
     char soundex[5];
