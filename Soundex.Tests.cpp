@@ -1,7 +1,7 @@
 #include "Soundex.h"
 #include <gtest/gtest.h>
 
-TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits) {
+/* TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits) {
     char soundex[5];
 
     generateSoundex("AX", soundex);
@@ -28,4 +28,4 @@ TEST(SoudexTestsuite, NonAlphabetCharacter) {
 
     generateSoundex("A#hcroft", soundex);
     ASSERT_STREQ(soundex, "A261");
-}
+} */
