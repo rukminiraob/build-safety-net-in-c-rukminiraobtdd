@@ -18,6 +18,10 @@ int main() {
     // Test for two numbers separated by a comma
     assert(Add("1,2") == 3);
 
+    // Test for a custom delimiter
+    assert(Add("//;\n1;2") == 3);
+
     printf("All tests passed.\n");
     return 0;
 }
+
