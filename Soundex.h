@@ -11,5 +11,15 @@ int Add(const char *numbers) {
     if (numbers[0] == '\0') {
         return 0;  // Return 0 for an empty string
     }
-    return -1;  // Placeholder for non-empty inputs
+
+    int sum = 0;
+    const char *delimiter = ",";
+    char *token = strtok((char *)numbers, delimiter);
+    
+    while (token != NULL) {
+        sum += atoi(token);  // Convert string to int and add to sum
+        token = strtok(NULL, delimiter);
+    }
+    
+    return sum;
 }
