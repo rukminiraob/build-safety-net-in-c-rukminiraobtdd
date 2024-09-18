@@ -38,12 +38,24 @@ int sumNumbers(const char* numbers, const char* delimiter) {
     int sum = 0;
     char *numbers_copy = strdup(numbers);  // Make a mutable copy of the input string
     char *token = strtok(numbers_copy, delimiter);
+    int negative_count = 0;
 
-    while (token != NULL) {
-        sum += atoi(token);  // Convert string to int and add to sum
+while (token != NULL) {
+        int number = atoi(token);
+        
+        // Check if the number is negative
+        if (number < 0) {
+            if (negative_count > 0) {
+                strcat(error_message, ", ");
+            }
+            strcat(error_message, token);
+            negative_count++;
+        } else {
+            sum += number;  // Add non-negative numbers to the sum
+        }
+
         token = strtok(NULL, delimiter);
     }
-
     free(numbers_copy);
     return sum;
 }
